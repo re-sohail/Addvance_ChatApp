@@ -1,0 +1,14 @@
+- Tast 1:
+
+1. create project
+2. Insatll required/used Depandances (express, mongoose, morgan, .env)
+3. create all the folders with files
+4. Create the App server
+5. create the Database (MongoDB Atlas) and connect befor app start
+6. Config/Connect the DB with Express Server
+7. Models of Users and Messages
+8. Rouets (Signup)
+9. Import all the routes in App
+
+
+- Tast 2:
