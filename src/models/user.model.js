@@ -13,6 +13,13 @@ const userSchema = new mongoose.Schema({
     trim: true,
     minLength: 3,
     maxLength: 50,
+    validate: {
+      validator: function (value) {
+        return /^[a-zA-Z0-9_]*$/.test(value);
+      },
+      message:
+        "Invalid Username Format (only letters, numbers, and underscores)",
+    },
   },
   email: {
     type: String,
@@ -33,7 +40,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLength: 8,
     maxLength: 100,
-    select: false,
+    // select: false,
     validate: (value) => {
       if (!validator.isStrongPassword(value)) {
         throw new Error("Password is not strong enough");
