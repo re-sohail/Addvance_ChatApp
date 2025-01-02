@@ -1,6 +1,7 @@
 const { signupValidate, signinValidate } = require("../utils/auth.validate");
 const bcrypt = require("bcryptjs");
 const userModel = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 
 const signup = async (req, res) => {
   try {
@@ -81,7 +82,33 @@ const signin = async (req, res) => {
       });
     }
 
-    // token genrate
+    // token genrate {JWT}
+    // (data), (secret key), (options)
+    const token = await jwt.sign(
+      {
+        id: isUser._id,
+        name: isUser.name,
+        email: isUser.email,
+      },
+      process.env.JWT_SCRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    // genrate the cookies
+    res.cookie("token", token, {
+      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      httpOnly: true,
+      sameSite: "strict",
+    });
+
+    return res.status(200).json({
+      message: "Login Successfully",
+      status: 200,
+      success: true,
+      error: null,
+    });
   } catch (error) {
     return res.status(500).json({
       message: error.message || "Inetrnal Server issue",
