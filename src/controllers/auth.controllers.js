@@ -72,7 +72,7 @@ const signin = async (req, res) => {
     }
 
     // check if the password is correct
-    let isPassword = await bcrypt.compare(password, isUser.password);
+    let isPassword = await isUser.comparePassword(password);
 
     if (!isPassword) {
       return res.status(404).json({
@@ -84,17 +84,19 @@ const signin = async (req, res) => {
 
     // token genrate {JWT}
     // (data), (secret key), (options)
-    const token = await jwt.sign(
-      {
-        id: isUser._id,
-        name: isUser.name,
-        email: isUser.email,
-      },
-      process.env.JWT_SCRET,
-      {
-        expiresIn: "7d",
-      }
-    );
+    // const token = await jwt.sign(
+    //   {
+    //     id: isUser._id,
+    //     name: isUser.name,
+    //     email: isUser.email,
+    //   },
+    //   process.env.JWT_SCRET,
+    //   {
+    //     expiresIn: "7d",
+    //   }
+    // );
+
+    const token = await isUser.generateToken();
 
     // genrate the cookies
     res.cookie("token", token, {
