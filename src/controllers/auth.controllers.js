@@ -59,6 +59,8 @@ const signin = async (req, res) => {
         success: false,
       });
     }
+
+    
     let { email, password } = req.body;
 
     // check if the email exist
@@ -121,3 +123,6 @@ const signin = async (req, res) => {
 };
 
 module.exports = { signup, signin };
+
+
+
